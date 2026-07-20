@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smit Resort — Talere, Kankavali</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf6f0;
+    --bg-deep:#f1e6d5;
+    --paper:#faf6f0;
+    --ink:#2a1c14;
+    --ink-soft:#6f5a45;
+    --rust:#b5502b;
+    --rust-bright:#d8642f;
+    --gold:#c2872e;
+    --sage:#5c7a63;
+    --sage-dark:#4a6350;
+    --btn:var(--sage-dark);
+    --btn-hover:var(--sage);
+    --line: rgba(42,28,20,0.14);
+    --line-hero: rgba(250,246,240,0.3);
+    --hero-dark:#150f0c;
+    --card:#ffffff;
+    --radius:16px;
+    --radius-lg:18px;
+    --shadow:0 6px 20px -14px rgba(42,28,20,0.35);
+    --shadow-hover:0 18px 34px -16px rgba(42,28,20,0.4);
+    --font-display: 'Fraunces', serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{ max-width:100%; display:block; }
+  a{ color:inherit; }
+
+  ::selection{ background:var(--rust); color:var(--paper); }
+
+  /* ---------- Nav ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 5vw;
+    background:linear-gradient(to bottom, rgba(21,15,12,0.5), transparent);
+    color:var(--paper);
+    transition:background .3s ease, padding .3s ease, color .3s ease, box-shadow .3s ease;
+  }
+  header.scrolled{
+    background:rgba(250,246,240,0.94);
+    backdrop-filter:blur(8px);
+    padding:12px 5vw;
+    color:var(--ink);
+    box-shadow:0 1px 0 var(--line);
+  }
+  .brand{ display:flex; align-items:center; }
+  .brand-mark-wrap{
+    flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    transition:transform .35s ease;
+  }
+  header .brand-mark-wrap{
+    width:auto; height:90px;
+    padding:6px 10px;
+    background:#fff;
+    border-radius:10px;
+    box-shadow:0 2px 10px rgba(21,15,12,0.12);
+  }
+  header .brand-mark-wrap:hover{ transform:scale(1.04); }
+  header .brand-mark-wrap img{ width:auto; height:100%; object-fit:contain; }
+  nav.links{ display:flex; gap:1.9rem; align-items:center; }
+  nav.links a{
+    font-family:var(--font-mono);
+    font-size:0.7rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    text-decoration:none;
+    color:inherit;
+    opacity:0.85;
+    position:relative;
+    padding-bottom:4px;
+    transition:opacity .2s ease;
+  }
+  nav.links a:hover{ opacity:1; }
+  nav.links a::after{
+    content:""; position:absolute; left:0; bottom:0; height:1px; width:0;
+    background:var(--gold); transition:width .25s ease;
+  }
+  nav.links a:hover::after{ width:100%; }
+  .nav-call{
+    font-family:var(--font-mono);
+    font-size:0.72rem;
+    letter-spacing:0.1em;
+    border:1px solid var(--line-hero);
+    padding:9px 16px;
+    border-radius:999px;
+    text-decoration:none;
+    color:inherit;
+    white-space:nowrap;
+    transition:border-color .2s ease, background .2s ease;
+  }
+  header.scrolled .nav-call{ border-color:var(--line); }
+  .nav-call:hover{ background:var(--rust); border-color:var(--rust); color:var(--paper); }
+  .burger{ display:none; }
+
+  @media (max-width:920px){
+    nav.links{ display:none; }
+    .burger{ display:block; background:none; border:none; color:inherit; font-size:1.4rem; cursor:pointer; }
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    overflow:hidden;
+    isolation:isolate;
+  }
+  .hero-bg{
+    position:absolute; inset:0; z-index:-4;
+    background-image:url('outsidezoom.jpg');
+    background-size:cover;
+    background-position:center 38%;
+    filter:saturate(1.05) contrast(1.04) brightness(0.96);
+    /* slightly zoomed out compared to original */
+    transform:scale(1.02);
+    animation:driftbg 28s ease-in-out infinite alternate;
+  }
+  @keyframes driftbg{
+    0%{ transform:scale(1.02) translate(0,0); }
+    100%{ transform:scale(1.06) translate(-1%, -0.8%); }
+  }
+  .hero-wash{
+    position:absolute; inset:0; z-index:-3;
+    mix-blend-mode:multiply;
+    background:
+      radial-gradient(ellipse at 22% 18%, rgba(231,176,78,0.14), transparent 45%),
+      radial-gradient(ellipse at 80% 75%, rgba(92,122,99,0.12), transparent 50%),
+      linear-gradient(160deg, rgba(30,23,18,0.28), rgba(21,15,12,0.42));
+  }
+  .hero-scrim{
+    position:absolute; inset:0; z-index:-2;
+    background:
+      linear-gradient(to top, rgba(21,15,12,0.72) 0%, rgba(21,15,12,0.48) 34%, rgba(21,15,12,0.18) 60%, rgba(21,15,12,0.06) 100%),
+      linear-gradient(to bottom, rgba(21,15,12,0.28) 0%, transparent 24%);
+  }
+  canvas#fireflies{ position:absolute; inset:0; z-index:-2; }
+
+  .hero-content{     
+    position:relative;
+    padding:0 5vw;
+    max-width:920px;
+    color:var(--paper);
+  }
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:0.72rem;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--white);
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:1.6rem;
+    opacity:0;
+    animation:fadeUp .8s ease .15s forwards;
+  }
+  .eyebrow::before{
+    content:""; width:28px; height:1px; background:var(--gold);
+  }
+  h1.hero-title{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-optical-sizing:auto;
+    font-size:clamp(2.6rem, 6.4vw, 5.2rem);
+    line-height:1.02;
+    margin:0 0 1.3rem 0;
+    letter-spacing:-0.01em;
+    text-shadow:0 2px 24px rgba(21,15,12,0.35);
+    opacity:0;
+    animation:fadeUp .9s ease .35s forwards;
+  }
+  h1.hero-title em{
+    font-style:italic;
+    font-weight:400;
+    color:var(--gold);
+  }
+  .hero-sub{
+    font-size:clamp(1rem, 1.6vw, 1.2rem);
+    max-width:520px;
+    color:rgba(250,246,240,0.86);
+    margin-bottom:2.4rem;
+    text-shadow:0 1px 12px rgba(21,15,12,0.4);
+    opacity:0;
+    animation:fadeUp .9s ease .55s forwards;
+  }
+  .hero-actions{ display:flex; gap:1rem; flex-wrap:wrap; opacity:0; animation:fadeUp .9s ease .75s forwards; }
+  @keyframes fadeUp{ from{ opacity:0; transform:translateY(18px); } to{ opacity:1; transform:translateY(0); } }
+
+  .btn{
+    font-family:var(--font-mono);
+    font-size:0.78rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    text-decoration:none;
+    padding:15px 28px;
+    border-radius:999px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    border:none;
+    cursor:pointer;
+    transition:transform .25s ease, box-shadow .25s ease, background .25s ease;
+  }
+  .btn-solid{
+    background:var(--btn);
+    color:var(--paper);
+    box-shadow:0 8px 24px -8px rgba(74,99,80,0.55);
+  }
+  .btn-solid:hover{ background:var(--btn-hover); transform:translateY(-2px); }
+  .btn-ghost{
+    border:1px solid var(--line-hero);
+    color:var(--paper);
+    background:transparent;
+  }
+  .btn-ghost:hover{ border-color:var(--gold); color:var(--gold); transform:translateY(-2px); }
+  .btn-sm{
+    font-size:0.68rem;
+    padding:11px 20px;
+    letter-spacing:0.07em;
+  }
+
+  .hero-foot{
+    position:absolute;
+    bottom:32px; left:5vw; right:5vw;
+    display:flex; justify-content:space-between; align-items:flex-end;
+    font-family:var(--font-mono);
+    font-size:0.7rem;
+    color:rgba(250,246,240,0.75);
+    letter-spacing:0.05em;
+  }
+  .scroll-cue{ display:flex; flex-direction:column; align-items:center; gap:6px; }
+  .scroll-cue .line{ width:1px; height:34px; background:linear-gradient(to bottom, var(--gold), transparent); animation:pulse-line 2.4s ease-in-out infinite; }
+  @keyframes pulse-line{ 0%,100%{ opacity:0.3; } 50%{ opacity:1; } }
+
+  .palms{ position:absolute; bottom:-4px; z-index:-1; pointer-events:none; opacity:0.9; }
+  .palm-left{ left:-2vw; width:min(30vw,340px); transform-origin:bottom center; animation:sway 7s ease-in-out infinite; }
+  .palm-right{ right:-3vw; width:min(24vw,300px); transform-origin:bottom center; animation:sway 8.5s ease-in-out infinite reverse; }
+  @keyframes sway{ 0%,100%{ transform:rotate(-1.2deg); } 50%{ transform:rotate(1.6deg); } }
+
+  /* ---------- Sections shared ---------- */
+  section{ padding:7rem 5vw; position:relative; }
+  .section-inner{ max-width:1180px; margin:0 auto; }
+  .reveal{ opacity:0; transform:translateY(28px); transition:opacity .8s ease, transform .8s ease; }
+  .reveal.in{ opacity:1; transform:none; }
+
+  .label{
+    font-family:var(--font-mono);
+    font-size:0.72rem;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:var(--rust);
+    display:flex; align-items:center; gap:12px;
+    margin-bottom:1.2rem;
+  }
+  .label::before{ content:""; width:24px; height:1px; background:var(--rust); }
+
+  h2.section-title{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(2rem, 4vw, 3rem);
+    max-width:640px;
+    line-height:1.08;
+    margin:0 0 1rem 0;
+    color:var(--ink);
+  }
+  .section-lede{ max-width:560px; color:var(--ink-soft); font-size:1.02rem; margin:0; }
+
+  /* ---------- Strip ---------- */
+  #strip{ background:var(--bg-deep); padding:4rem 5vw; }
+  .strip-inner{
+    max-width:1180px; margin:0 auto;
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(230px,1fr));
+    gap:1.4rem;
+  }
+  .strip-item{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:1.5rem 1.6rem;
+    display:flex; flex-direction:column; gap:0.7rem;
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .strip-item:hover{ transform:translateY(-3px); box-shadow:var(--shadow); }
+  .strip-item .icon{ width:28px; height:28px; animation:iconfloat 3.4s ease-in-out infinite; }
+  .strip-item .headline{
+    font-family:var(--font-display);
+    font-size:1.35rem;
+    color:var(--ink);
+  }
+  .strip-item .cap{
+    font-family:var(--font-mono);
+    font-size:0.8rem;
+    color:var(--ink-soft);
+    line-height:1.4;
+  }
+  @keyframes iconfloat{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-4px); } }
+
+  /* ---------- Rooms / Accommodation ---------- */
+  #accommodation{ background:var(--bg); }
+  .room-grid{
+    display:flex;
+    overflow-x:auto;
+    gap:1.8rem;
+    margin-top:3.2rem;
+    padding-bottom:0.6rem;
+    scroll-snap-type:x proximity;
+    -webkit-overflow-scrolling:touch;
+  }
+  .room-grid::-webkit-scrollbar{
+    height:10px;
+  }
+  .room-grid::-webkit-scrollbar-thumb{
+    background:rgba(42,28,20,0.16);
+    border-radius:999px;
+  }
+  .room-grid::-webkit-scrollbar-track{
+    background:transparent;
+  }
+  .room-card{
+    min-width:320px;
+    flex:0 0 320px;
+    border-radius:var(--radius-lg);
+    overflow:hidden;
+    border:1px solid var(--line);
+    background:var(--card);
+    box-shadow:var(--shadow);
+    display:flex;
+    flex-direction:column;
+    height:100%;
+    transition:transform .3s ease, box-shadow .3s ease;
+    scroll-snap-align:start;
+  }
+  .room-card:hover{ transform:translateY(-6px); box-shadow:var(--shadow-hover); }
+  .room-card .img-wrap{
+    aspect-ratio:4/3;
+    overflow:hidden;
+    background:var(--bg-deep);
+  }
+  .room-card img{
+    width:100%; height:100%; object-fit:cover; display:block;
+    transition:transform .5s ease;
+  }
+  .room-card:hover img{ transform:scale(1.06); }
+  .room-body{
+    padding:1.5rem 1.6rem 1.8rem;
+    display:flex;
+    flex-direction:column;
+    flex:1;
+  }
+  .room-tag{
+    font-family:var(--font-mono);
+    font-size:0.65rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--rust);
+    margin-bottom:0.5rem;
+  }
+  .room-name{
+    font-family:var(--font-display);
+    font-size:1.55rem;
+    margin:0 0 0.6rem 0;
+    color:var(--ink);
+  }
+  .room-desc{
+    font-size:0.9rem;
+    color:var(--ink-soft);
+    margin:0 0 1.1rem 0;
+  }
+  .room-amenities{
+    list-style:none;
+    margin:0 0 1.4rem 0;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    gap:0.45rem;
+    flex:1;
+  }
+  .room-amenities li{
+    font-size:0.84rem;
+    color:var(--ink-soft);
+    padding-left:1.1rem;
+    position:relative;
+  }
+  .room-amenities li::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:0.55em;
+    width:5px;
+    height:5px;
+    border-radius:50%;
+    background:var(--gold);
+  }
+  .room-footer{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:1rem;
+    padding-top:1.2rem;
+    border-top:1px solid var(--line);
+    margin-top:auto;
+  }
+  .room-price{
+    font-family:var(--font-mono);
+    font-size:0.72rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+
+  /* ---------- Services ---------- */
+  #services{ background:var(--bg-deep); }
+  .service-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+    gap:1.4rem;
+    margin-top:3rem;
+  }
+  .service-card{
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:1.8rem;
+    background:var(--card); 
+    height:100%;
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .service-card:hover{ transform:translateY(-4px); box-shadow:0 14px 26px -16px rgba(42,28,20,0.3); }
+  .service-card .icon{ width:34px; height:34px; margin-bottom:1.2rem; animation:iconfloat 3.8s ease-in-out infinite; }
+  .service-card h3{ font-family:var(--font-display); font-size:1.15rem; margin:0 0 0.5rem 0; color:var(--ink); }
+  .service-card p{ font-size:0.86rem; color:var(--ink-soft); margin:0; }
+
+  /* ---------- Wave divider ---------- */
+  .wave-divider{ display:block; width:100%; height:70px; margin:-1px 0; animation:wavedrift 9s ease-in-out infinite; }
+  .wave-divider path{ fill:var(--bg-deep); }
+  @keyframes wavedrift{ 0%,100%{ transform:translateX(0); } 50%{ transform:translateX(-1.5%); } }
+
+  /* ---------- Location / Easy to Reach ---------- */
+  #location{ background:var(--bg); padding-bottom:5rem; }
+  .location-intro{ margin-bottom:4rem; }
+
+  .getting-here{ margin-bottom:0; }
+  .getting-here-header{ margin-bottom:2.6rem; }
+  .getting-here-layout{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:1.6rem;
+    align-items:stretch;
+  }
+  @media (max-width:900px){
+    .getting-here-layout{ grid-template-columns:1fr; }
+  }
+  .transit-col{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:1.4rem;
+    height:100%;
+  }
+  .transit-card{
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:1.6rem 1.7rem;
+    background:var(--card);
+    display:flex;
+    flex-direction:column;
+    gap:0.75rem;
+    height:100%;
+    min-height:0;
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .transit-card:hover{ transform:translateY(-4px); box-shadow:0 14px 26px -16px rgba(42,28,20,0.3); }
+  .transit-card .icon{
+    width:32px;
+    height:32px;
+    flex-shrink:0;
+    animation:iconfloat 4s ease-in-out infinite;
+  }
+  .transit-card h4{
+    font-family:var(--font-display);
+    font-size:1.1rem;
+    margin:0;
+    color:var(--ink);
+  }
+  .transit-card .dist{
+    font-family:var(--font-mono);
+    font-size:0.7rem;
+    letter-spacing:0.06em;
+    color:var(--rust);
+    text-transform:uppercase;
+  }
+  .transit-card p{
+    font-size:0.84rem;
+    color:var(--ink-soft);
+    margin:0;
+    flex:1;
+  }
+
+  .map-embed{
+    border-radius:var(--radius-lg);
+    overflow:hidden;
+    border:1px solid var(--line);
+    min-height:100%;
+    display:flex;
+    box-shadow:var(--shadow);
+  }
+  .map-embed iframe{
+    width:100%;
+    height:100%;
+    min-height:460px;
+    border:0;
+    display:block;
+  }
+  @media (max-width:900px){
+    .map-embed iframe{ min-height:340px; }
+  }
+
+  /* ---------- Explore / coast ---------- */
+  .coast-panel{
+    padding:7rem 5vw;
+    position:relative;
+    overflow:hidden;
+    isolation:isolate;
+  }
+  .coast-panel::before{
+    content:"";
+    position:absolute; inset:-12px;
+    background:url('webbackground.jpg') center/cover no-repeat;
+    filter:blur(1px);
+    transform:scale(1.04);
+    z-index:-2;
+  }
+  .coast-panel::after{
+    content:"";
+    position:absolute; inset:0;
+    background:linear-gradient(
+      180deg,
+      rgba(255,255,255,0.62) 0%,
+      rgba(250,246,240,0.58) 50%,
+      rgba(255,255,255,0.65) 100%
+    );
+    z-index:-1;
+  }
+  .coast-panel .section-inner{ position:relative; z-index:1; }
+  .coast-panel .section-title,
+  .coast-panel .section-lede,
+  .coast-panel .explore-note{
+    text-shadow:0 1px 12px rgba(255,255,255,0.85);
+  }
+  .coast-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));
+    gap:1.6rem;
+    margin-top:3.2rem;
+  }
+  .coast-card{
+    border-radius:var(--radius-lg);
+    padding:0;
+    position:relative;
+    overflow:hidden;
+    border:1px solid var(--line);
+    background:var(--card);
+    display:flex;
+    flex-direction:column;
+    height:100%;
+    box-shadow:var(--shadow);
+    transition:transform .3s ease, box-shadow .3s ease;
+  }
+  .coast-card:hover{ transform:translateY(-5px); box-shadow:var(--shadow-hover); }
+  .coast-card .coast-img{
+    aspect-ratio:16/10;
+    overflow:hidden;
+    background:var(--bg-deep);
+  }
+  .coast-card .coast-img img{
+    width:100%; height:100%; object-fit:cover;
+    transition:transform .5s ease;
+  }
+  .coast-card:hover .coast-img img{ transform:scale(1.06); }
+  .coast-card .coast-body{
+    padding:1.4rem 1.5rem 1.6rem;
+    display:flex; flex-direction:column; flex:1;
+  }
+  .coast-card .place-name{
+    font-family:var(--font-display);
+    font-size:1.35rem;
+    margin:0 0 0.3rem 0;
+    color:var(--ink);
+  }
+  .coast-card .tag{
+    font-family:var(--font-mono);
+    font-size:0.64rem;
+    letter-spacing:0.07em;
+    text-transform:uppercase;
+    color:var(--rust);
+    margin-bottom:0.8rem;
+    display:block;
+  }
+  .coast-card p{
+    font-size:0.85rem;
+    color:var(--ink-soft);
+    margin:0;
+    flex:1;
+  }
+  .coast-card .from{
+    margin-top:1.2rem;
+    padding-top:1rem;
+    border-top:1px solid var(--line);
+    font-family:var(--font-mono);
+    font-size:0.66rem;
+    letter-spacing:0.05em;
+    color:var(--ink-soft);
+    text-transform:uppercase;
+  }
+  /* Photo gallery: match Malvan & Tarkarli image sizing (16/10) */
+  .gallery-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+    gap:1rem;
+    margin-top:1.6rem;
+  }
+  .gallery-item{
+    display:block;
+    border-radius:12px;
+    overflow:hidden;
+    border:1px solid var(--line);
+    background:var(--card);
+    box-shadow:var(--shadow);
+  }
+  .gallery-item img{
+    width:100%;
+    height:100%;
+    aspect-ratio:5/5;
+    object-fit:cover;
+    display:block;
+  }
+  .coast-card.trending .from{ color:var(--rust); }
+
+  .explore-note{
+    margin-top:1.8rem;
+    font-family:var(--font-mono);
+    font-size:0.72rem;
+    color:var(--ink-soft);
+    opacity:0.85;
+  }
+
+  /* ---------- Contact ---------- */
+  #contact{ background:var(--bg); }
+  .contact-wrap{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:3.5rem; align-items:start; }
+  @media (max-width:860px){ .contact-wrap{ grid-template-columns:1fr; } }
+
+  form.stay-form{ display:flex; flex-direction:column; gap:1.1rem; margin-top:2.2rem; }
+  .form-row{ display:flex; gap:1rem; flex-wrap:wrap; }
+  .field{ flex:1; min-width:180px; display:flex; flex-direction:column; gap:0.4rem; }
+  .field label{ font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-soft); }
+  .field input, .field select, .field textarea{
+    background:transparent; border:none; border-bottom:1px solid var(--line);
+    color:var(--ink); font-family:var(--font-body); font-size:0.98rem; padding:0.6rem 0.1rem;
+    outline:none; transition:border-color .25s ease;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{ border-color:var(--rust); }
+  .field select option{ background:var(--bg); }
+  .stay-form .btn-solid{ align-self:flex-start; margin-top:0.6rem; }
+  .form-note{ font-family:var(--font-mono); font-size:0.7rem; color:var(--ink-soft); opacity:0.8; margin-top:0.6rem; }
+
+  .contact-card{
+    background:var(--bg-deep);
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    padding:2.2rem;
+    box-shadow:var(--shadow);
+  }
+  .contact-card h3{ font-family:var(--font-display); font-size:1.4rem; margin:0 0 1.3rem 0; color:var(--ink); }
+  .contact-row{ display:flex; justify-content:space-between; gap:1rem; padding:0.85rem 0; border-bottom:1px solid var(--line); font-size:0.92rem; }
+  .contact-row:last-child{ border-bottom:none; }
+  .contact-row .k{ color:var(--ink-soft); font-family:var(--font-mono); font-size:0.72rem; letter-spacing:0.06em; text-transform:uppercase; padding-top:2px; flex-shrink:0; }
+  .contact-row .v{ text-align:right; max-width:60%; }
+  .contact-row a{ text-decoration:none; }
+  .contact-row a:hover{ color:var(--rust); }
+
+  /* ---------- Footer ---------- */
+  footer{
+    padding:2.6rem 5vw 2rem;
+    border-top:1px solid var(--line);
+    background:var(--bg-deep);
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;
+    font-family:var(--font-mono); font-size:0.72rem; color:var(--ink-soft); letter-spacing:0.04em;
+  }
+  footer a{ text-decoration:none; }
+  footer a:hover{ color:var(--rust); }
+  .footer-brand{ display:flex; align-items:center; gap:10px; }
+  .footer-brand .brand-mark-wrap{
+    width:26px; height:26px; border-radius:8px; box-shadow:none;
+    background:rgba(250,246,240,0.95); padding:4px; overflow:hidden;
+  }
+  .footer-brand .brand-mark-wrap img{ width:100%; height:100%; object-fit:contain; }
+
+  /* ---------- Floating quick actions ---------- */
+  .quick-actions{ position:fixed; bottom:24px; right:24px; z-index:60; display:flex; flex-direction:column; gap:10px; }
+  .quick-btn{
+    width:52px; height:52px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    text-decoration:none; box-shadow:0 10px 24px -8px rgba(0,0,0,0.35);
+    transition:transform .2s ease;
+  }
+  .quick-btn:hover{ transform:scale(1.08); }
+  .qb-call{ background:var(--btn); }
+  .qb-wa{ background:#2fae5f; }
+
+  .toast{
+    position:fixed; left:50%; bottom:36px; transform:translate(-50%, 24px);
+    background:var(--ink); color:var(--paper);
+    font-family:var(--font-mono); font-size:0.78rem;
+    padding:14px 22px; border-radius:999px;
+    opacity:0; pointer-events:none; transition:opacity .3s ease, transform .3s ease;
+    z-index:80;
+  }
+  .toast.show{ opacity:1; transform:translate(-50%, 0); }
+
+  @media (max-width:640px){
+    section{ padding:5rem 5vw; }
+    .coast-panel{ padding:5rem 5vw; }
+    .coast-grid{ grid-template-columns:1fr; }
+    .room-grid{ grid-template-columns:1fr; }
+    .room-footer{ flex-direction:column; align-items:stretch; }
+    .room-footer .btn-sm{ width:100%; }
+    .hero-foot{ flex-direction:column; align-items:flex-start; gap:1rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; }
+    html{ scroll-behavior:auto; }
+    .eyebrow, .hero-title, .hero-sub, .hero-actions{ opacity:1 !important; }
+  }
+</style>
+</head>
+<body>
+
+<header id="siteHeader">
+  <div class="brand">
+    <div class="brand-mark-wrap">
+      <img src="https://www.justlocality.com/uploads/businesslogo/1784379236.png" alt="Smit Resort logo">
+    </div>
+  </div>
+  <nav class="links">
+    <a href="#home">Home</a>
+    <a href="#accommodation">Accommodation</a>
+    <a href="#services">Services</a>
+    <a href="#location">Location</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <a class="nav-call" href="tel:+918329091319">+91-83290 91319</a>
+</header>
+
+<!-- ================= HOME / HERO ================= -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-wash"></div>
+  <div class="hero-scrim"></div>
+  <canvas id="fireflies"></canvas>
+
+  <svg class="palms palm-left" viewBox="0 0 200 260" xmlns="http://www.w3.org/2000/svg">
+    <path d="M100 260 L96 90" stroke="#150f0c" stroke-width="6" fill="none"/>
+    <g fill="#150f0c">
+      <path d="M96 95 C 40 70, 5 50, 0 20 C 45 30, 80 55, 96 95 Z"/>
+      <path d="M96 95 C 150 70, 185 45, 195 10 C 150 25, 115 50, 96 95 Z"/>
+      <path d="M96 90 C 55 95, 20 100, 0 130 C 50 120, 80 105, 96 90 Z"/>
+      <path d="M96 90 C 140 92, 175 100, 198 128 C 150 118, 118 102, 96 90 Z"/>
+      <path d="M96 85 C 70 60, 55 30, 60 0 C 90 25, 100 55, 96 85 Z"/>
+    </g>
+  </svg>
+  <svg class="palms palm-right" viewBox="0 0 200 260" xmlns="http://www.w3.org/2000/svg">
+    <path d="M100 260 L104 100" stroke="#150f0c" stroke-width="6" fill="none"/>
+    <g fill="#150f0c">
+      <path d="M104 105 C 160 80, 195 60, 200 30 C 155 40, 120 65, 104 105 Z"/>
+      <path d="M104 105 C 50 80, 15 55, 5 20 C 50 35, 85 60, 104 105 Z"/>
+      <path d="M104 100 C 145 105, 180 110, 200 140 C 150 130, 120 115, 104 100 Z"/>
+      <path d="M104 100 C 60 102, 25 110, 2 138 C 50 128, 82 112, 104 100 Z"/>
+      <path d="M104 95 C 130 70, 145 40, 140 10 C 110 35, 100 65, 104 95 Z"/>
+    </g>
+  </svg>
+
+  <div class="hero-content">
+    <div class="eyebrow">Talere &middot; Kankavali &middot; Sindhudurg</div>
+    <h1 class="hero-title">Where the Konkan<br>coast <em>exhales.</em></h1>
+    <p class="hero-sub">A red earth resort among coconut groves off Vaibhavwadi Road deluxe AC rooms, family suites, and group stays, all within reach of the Sindhudurg shoreline.</p>
+    <div class="hero-actions">
+      <a class="btn btn-solid" href="#accommodation">See the rooms</a>
+      <a class="btn btn-ghost" href="https://api.whatsapp.com/send?phone=+918329091319&text=Hi..">Message on WhatsApp</a>
+    </div>
+  </div>
+
+  <div class="hero-foot">
+    <span>16&deg;58'N, 73&deg;38'E — Kasarde, Kankavali</span>
+    <span class="scroll-cue"><span class="line"></span>SCROLL</span>
+  </div>
+</section>
+
+<!-- ================= STRIP ================= -->
+<div id="strip" class="reveal">
+  <div class="strip-inner">
+    <div class="strip-item">  
+      <svg class="icon" viewBox="0 0 40 40" fill="none"><rect x="10" y="16" width="20" height="16" rx="2" stroke="#b5502b" stroke-width="2"/><path d="M15 16 V11 a5 5 0 0 1 10 0 v5" stroke="#2a1c14" stroke-width="2"/><circle cx="20" cy="24" r="1.8" fill="#2a1c14"/></svg>
+      <div class="headline">4 Room Types</div>
+      <div class="cap">Deluxe AC, Non-AC, Family &amp; Group Stay</div>
+    </div>
+    <div class="strip-item">
+      <svg class="icon" viewBox="0 0 40 40" fill="none"><path d="M20 6 C 20 6, 12 18, 12 25 A8 8 0 0 0 28 25 C 28 18, 20 6, 20 6 Z" stroke="#b5502b" stroke-width="2" fill="none"/><path d="M17 25 a3 3 0 0 0 6 0" stroke="#2a1c14" stroke-width="1.8"/></svg>
+      <div class="headline">24-Hour Water & Wifi </div>
+      <div class="cap">Available anytime, in every room</div>
+    </div>
+    <div class="strip-item">
+      <svg class="icon" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="13" stroke="#b5502b" stroke-width="2"/><path d="M20 13 V20 L26 24" stroke="#2a1c14" stroke-width="2" stroke-linecap="round"/></svg>
+      <div class="headline">09:00 &ndash; 19:00</div>
+      <div class="cap">Reception open daily, every day of the week</div>
+    </div>
+    <div class="strip-item">
+      <svg class="icon" viewBox="0 0 40 40" fill="none"><path d="M7 24 L10 15 a2 2 0 0 1 2 -1.4 H28 a2 2 0 0 1 2 1.4 L33 24" stroke="#b5502b" stroke-width="2" fill="none" stroke-linejoin="round"/><rect x="6" y="24" width="28" height="8" rx="2" stroke="#2a1c14" stroke-width="2"/><circle cx="12" cy="32" r="2" fill="#2a1c14"/><circle cx="28" cy="32" r="2" fill="#2a1c14"/></svg>
+      <div class="headline">Free Parking</div>
+      <div class="cap">On-site space for cars, taxis &amp; group vehicles</div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= ACCOMMODATION ================= -->
+<section id="accommodation">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="label">Stay</div>
+      <h2 class="section-title">Four ways to slow down.</h2>
+      <p class="section-lede">From a solo AC retreat to a full group booking — every room opens onto the same quiet, green stillness.</p>
+    </div>
+
+    <div class="room-grid">
+      <article class="room-card reveal">
+        <div class="img-wrap">
+          <img src="room1.jpg" alt="Deluxe AC Room">
+        </div>
+        <div class="room-body">
+          <div class="room-tag">Most booked</div>
+          <h3 class="room-name">Deluxe AC Rooms</h3>
+          <p class="room-desc">Spacious, air-conditioned, and quiet — built for business trips, family holidays, and weekend escapes alike.</p>
+          <ul class="room-amenities">
+            <li>Air conditioning</li>
+            <li>Attached bathroom with 24-hour hot water</li>
+            <li>Television</li>
+            <li>Complimentary parking</li>
+          </ul>
+          <div class="room-footer">
+            <span class="room-price">Contact for rates</span>
+            <a class="btn btn-solid btn-sm" href="#contact">Book Now</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="room-card reveal">
+        <div class="img-wrap">
+          <img src="room2.jpg" alt="Non-AC Room">
+        </div>
+        <div class="room-body">
+          <div class="room-tag">Value stay</div>
+          <h3 class="room-name">Non-AC Rooms</h3>
+          <p class="room-desc">Clean, comfortable, and easy on the budget — a natural choice for solo travelers and couples passing through.</p>
+          <ul class="room-amenities">
+            <li>Well-ventilated rooms</li>
+            <li>Attached bathroom with 24-hour hot water</li>
+            <li>Television</li>
+            <li>Complimentary parking</li>
+          </ul>
+          <div class="room-footer">
+            <span class="room-price">Contact for rates</span>
+            <a class="btn btn-solid btn-sm" href="#contact">Book Now</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="room-card reveal">
+        <div class="img-wrap">
+          <img src="Desk.jpg" alt="Family Room">
+        </div>
+        <div class="room-body">
+          <div class="room-tag">Room to breathe</div>
+          <h3 class="room-name">Family Rooms</h3>
+          <p class="room-desc">A peaceful, spacious setup for the whole family, with the little comforts that make a longer stay easy.</p>
+          <ul class="room-amenities">
+            <li>Extra space for families</li>
+            <li>Attached bathroom with 24-hour hot water</li>
+            <li>Television</li>
+            <li>Complimentary parking</li>
+          </ul>
+          <div class="room-footer">
+            <span class="room-price">Contact for rates</span>
+            <a class="btn btn-solid btn-sm" href="#contact">Book Now</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="room-card reveal">
+        <div class="img-wrap">
+          <img src="frontarea.jpg" alt="Group Stay">
+        </div>
+        <div class="room-body">
+          <div class="room-tag">For groups</div>
+          <h3 class="room-name">Group Stay</h3>
+          <p class="room-desc">Built for tour groups, wedding parties, school trips, and corporate teams who want to stay together.</p>
+          <ul class="room-amenities">
+            <li>Multiple rooms for group bookings</li>
+            <li>Coordinated check-in support</li>
+            <li>On-site parking for buses &amp; vans</li>
+            <li>Direct phone &amp; WhatsApp assistance</li>
+          </ul>
+          <div class="room-footer">
+            <span class="room-price">Contact for rates</span>
+            <a class="btn btn-solid btn-sm" href="#contact">Book Now</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<svg class="wave-divider" viewBox="0 0 1440 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M0,40 C 240,90 480,0 720,30 C 960,60 1200,10 1440,40 L1440,70 L0,70 Z"></path>
+</svg>
+
+<!-- ================= SERVICES ================= -->
+<section id="services"> 
+  <div class="section-inner"> 
+    <div class="reveal">
+      <div class="label">On the property</div>
+      <h2 class="section-title">Everything a stay actually needs.</h2>
+      <p class="section-lede">No frills you won't use — just the essentials, handled properly.</p>
+    </div>
+
+    <div class="service-grid reveal">
+      <div class="service-card">
+        <svg class="icon" viewBox="0 0 40 40" fill="none"><rect x="8" y="14" width="24" height="18" rx="2" stroke="#2a1c14" stroke-width="2"/><path d="M14 14 V9 H26 V14" stroke="#2a1c14" stroke-width="2"/><circle cx="20" cy="23" r="3" stroke="#b5502b" stroke-width="1.8"/></svg>
+        <h3>Free Parking</h3>
+        <p>On-site parking for cars, taxis, and tour-group vehicles — no need to leave anything on the road.</p>
+      </div>
+      <div class="service-card"> 
+        <svg class="icon" viewBox="0 0 40 40" fill="none"><path d="M20 6 C 20 6, 12 18, 12 25 A8 8 0 0 0 28 25 C 28 18, 20 6, 20 6 Z" stroke="#2a1c14" stroke-width="2" fill="none"/><path d="M17 25 a3 3 0 0 0 6 0" stroke="#b5502b" stroke-width="1.8"/></svg>
+        <h3>24-Hour Water</h3>
+        <p>Hot water on tap around the clock in every room, whatever time you check in or wake up.</p>
+      </div>
+      <div class="service-card">
+        <svg class="icon" viewBox="0 0 40 40" fill="none"><rect x="7" y="10" width="26" height="17" rx="2" stroke="#2a1c14" stroke-width="2"/><path d="M15 32 H25" stroke="#b5502b" stroke-width="2" stroke-linecap="round"/><path d="M20 27 V32" stroke="#2a1c14" stroke-width="2"/></svg>
+        <h3>TV in Every Room</h3>
+        <p>A working television in each room type — Deluxe, Non-AC, Family, and Group alike.</p>
+      </div>
+      <div class="service-card">
+        <svg class="icon" viewBox="0 0 40 40" fill="none"><circle cx="14" cy="16" r="5" stroke="#2a1c14" stroke-width="2"/><circle cx="27" cy="16" r="5" stroke="#2a1c14" stroke-width="2"/><path d="M5 32 C 5 24, 11 21, 14 21 C 17 21, 19 22.5, 19 22.5" stroke="#b5502b" stroke-width="2"/><path d="M35 32 C 35 24, 29 21, 27 21 C 24 21, 22 22.5, 22 22.5" stroke="#b5502b" stroke-width="2"/></svg>
+        <h3>Group &amp; Tour Coordination</h3>
+        <p>Wedding guests, school trips, or corporate teams — rooms and timing coordinated so everyone stays together.</p>
+      </div>
+      <div class="service-card">
+        <svg class="icon" viewBox="0 0 40 40" fill="none"><path d="M8 18 h24 v10 a2 2 0 0 1 -2 2 H10 a2 2 0 0 1 -2 -2 V18 Z" stroke="#2a1c14" stroke-width="2"/><path d="M12 18 V14 a6 6 0 0 1 12 0 v4" stroke="#b5502b" stroke-width="2"/><circle cx="20" cy="26" r="2" fill="#2a1c14"/></svg>
+        <h3>Privacy &amp; Security</h3>
+        <p>Private rooms, secure entry, and discreet service to keep every stay calm, comfortable, and confidential.</p>
+      </div>
+      <div class="service-card">
+        <svg class="icon" viewBox="0 0 40 40" fill="none"><path d="M8 12 h24 a2 2 0 0 1 2 2 v12 a2 2 0 0 1 -2 2 H16 l-6 5 v-5 h-2 a2 2 0 0 1 -2 -2 V14 a2 2 0 0 1 2 -2 Z" stroke="#2a1c14" stroke-width="2"/><circle cx="16" cy="19" r="1.3" fill="#b5502b"/><circle cx="20" cy="19" r="1.3" fill="#b5502b"/><circle cx="24" cy="19" r="1.3" fill="#b5502b"/></svg>
+        <h3>Call &amp; WhatsApp Support</h3>
+        <p>Reach the resort directly by phone or WhatsApp for bookings, questions, or last-minute changes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PHOTO GALLERY ================= -->
+<section id="gallery">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="label">Snapshots</div>
+      <h2 class="section-title">Photo gallery</h2>
+      <p class="section-lede">A selection of images showcasing the resort, rooms, and grounds.</p>
+    </div>
+
+    <div class="gallery-grid reveal">
+      <div class="gallery-item"><img src="frontareacopy.jpg" alt="Outside area"></div>
+      <div class="gallery-item"><img src="Desk.jpg" alt="Desk"></div>
+      <div class="gallery-item"><img src="room2copy.jpg" alt="Deluxe room"></div>
+      <div class="gallery-item"><img src="Bathroom.jpg" alt="Bathroom"></div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= LOCATION ================= -->
+<section id="location">
+  <div class="section-inner">
+
+
+
+    <div class="getting-here reveal">
+      <div class="getting-here-header">
+        <div class="label">Getting here</div>
+        <h2 class="section-title">Easy to reach, hard to leave.</h2>
+        <p class="section-lede">The resort sits right off Vaibhavwadi Road in Talere — close to local transport, and within a comfortable drive of the region's stations.</p>
+      </div>
+
+      <div class="getting-here-layout">
+        <div class="transit-col">
+          <div class="transit-card">
+            <svg class="icon" viewBox="0 0 40 40" fill="none">
+              <rect x="6" y="9" width="28" height="20" rx="4" stroke="#2a1c14" stroke-width="2"/>
+              <path d="M6 17 H34" stroke="#2a1c14" stroke-width="1.6"/>
+              <rect x="10" y="12" width="6" height="4" rx="0.6" stroke="#b5502b" stroke-width="1.4"/>
+              <rect x="24" y="12" width="6" height="4" rx="0.6" stroke="#b5502b" stroke-width="1.4"/>
+              <circle cx="13" cy="31" r="2.2" fill="#2a1c14"/>
+              <circle cx="27" cy="31" r="2.2" fill="#2a1c14"/>
+            </svg>
+            <h4>Talere Bus Stand</h4>
+            <span class="dist">~2 km &middot; local</span>
+            <p>The nearest ST bus stop, right in the village — the easiest hop for local and short-distance travel.</p>
+          </div>
+          <div class="transit-card">
+            <svg class="icon" viewBox="0 0 40 40" fill="none">
+              <path d="M12 28 V13 a8 8 0 0 1 16 0 v15" stroke="#2a1c14" stroke-width="2"/>
+              <rect x="9" y="28" width="22" height="4" rx="1.5" stroke="#b5502b" stroke-width="1.6"/>
+              <rect x="14" y="16" width="12" height="6" rx="1" stroke="#2a1c14" stroke-width="1.4"/>
+              <circle cx="16" cy="26" r="1.4" fill="#2a1c14"/>
+              <circle cx="24" cy="26" r="1.4" fill="#2a1c14"/>
+              <path d="M8 34 H32" stroke="#b5502b" stroke-width="1.6"/>
+            </svg>
+            <h4>Kankavali Railway Station</h4>
+            <span class="dist">~10 km approx &middot; Konkan Railway</span>
+            <p>A major stop on the Konkan Railway line, with regular express and mail trains — the main station for the resort.</p>
+          </div>
+          <div class="transit-card">
+            <svg class="icon" viewBox="0 0 40 40" fill="none">
+              <path d="M12 28 V13 a8 8 0 0 1 16 0 v15" stroke="#2a1c14" stroke-width="2"/>
+              <rect x="9" y="28" width="22" height="4" rx="1.5" stroke="#b5502b" stroke-width="1.6"/>
+              <rect x="14" y="16" width="12" height="6" rx="1" stroke="#2a1c14" stroke-width="1.4"/>
+              <circle cx="16" cy="26" r="1.4" fill="#2a1c14"/>
+              <circle cx="24" cy="26" r="1.4" fill="#2a1c14"/>
+              <path d="M8 34 H32" stroke="#b5502b" stroke-width="1.6"/>
+            </svg>
+            <h4>Vaibhavwadi Road Station</h4>
+            <span class="dist">~35 km approx &middot; Konkan Railway</span>
+            <p>A secondary Konkan Railway stop further along NH-66 — useful for a wider range of train timings.</p>
+          </div>
+        </div>
+
+        <div class="map-embed">
+          <iframe src="https://www.google.com/maps?q=Smit+Resort+Talere+Kankavali+Sindhudurg+Maharashtra&output=embed" loading="lazy" allowfullscreen title="Smit Resort location map"></iframe>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= COAST KEEPS GOING ================= -->
+<div class="coast-panel">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="label">Day trips from Talere</div>
+      <h2 class="section-title">The coast keeps going.</h2>
+      <p class="section-lede">Sindhudurg's forts, temples, and beaches are all an easy there and back from the resort including a few spots that have only recently started drawing crowds.</p>
+    </div>
+
+    <div class="coast-grid reveal">
+
+      <article class="coast-card">
+        <div class="coast-img">
+          <img src="malwan.jpg" alt="Malvan & Tarkarli">
+        </div>
+        <div class="coast-body">
+          <span class="tag">~45 km &middot; ~1h 15m</span>
+          <h3 class="place-name">Malvan &amp; Tarkarli</h3>
+          <p>Sindhudurg Fort rises straight out of the sea, and Tarkarli's backwaters run clear enough for snorkelling and glass-bottom boat rides.</p>
+          <div class="from">Best for: a full beach day</div>
+        </div>
+      </article>
+
+      <article class="coast-card">
+        <div class="coast-img">
+          <img src="vijaydurga.jpg" alt="Vijaydurg Fort">
+        </div>
+        <div class="coast-body">
+          <span class="tag">~44 km &middot; ~1h 10m</span>
+          <h3 class="place-name">Vijaydurg Fort</h3>
+          <p>An 800-year-old sea-fort with a submerged wall built to wreck approaching ships — far quieter than Malvan.</p>
+          <div class="from">Best for: history &amp; sea views</div>
+        </div>
+      </article>
+
+      <article class="coast-card">
+        <div class="coast-img">
+          <img src="devgad.jpg" alt="Devgad">
+        </div>
+        <div class="coast-body">
+          <span class="tag">~48 km &middot; ~1h 20m</span>
+          <h3 class="place-name">Devgad</h3>
+          <p>The home ground of the original Alphonso mango, with a working harbour, a lighthouse, and beaches that stay empty even in season.</p>
+          <div class="from">Best for: mango orchards, slow beaches</div>
+        </div>
+      </article>
+
+      <article class="coast-card trending">
+        <div class="coast-img">
+          <img src="tsunami island.jpg" alt="Tondavali Tsunami Island">
+        </div>
+        <div class="coast-body">
+          <span class="tag">~55 km &middot; ~1h 30m</span>
+          <h3 class="place-name">Tondavali "Tsunami Island"</h3>
+          <p>A sandbar that appears at low tide, walkable out into the sea — one of the Konkan's newest and most-photographed spots.</p>
+          <div class="from">Trending now</div>
+        </div>
+      </article>
+
+      <article class="coast-card">
+        <div class="coast-img">
+          <img src="Amboli.jpg" alt="Amboli Ghat & Waterfalls">
+        </div>
+        <div class="coast-body">
+          <span class="tag">~95&ndash;100 km &middot; ~2.5h</span>
+          <h3 class="place-name">Amboli Ghat &amp; Waterfalls</h3>
+          <p>A misty hill-station detour inland — waterfalls, dense forest, and a cooler climate, especially striking in monsoon.</p>
+          <div class="from">Best for: waterfalls &amp; monsoon views</div>
+        </div>
+      </article>
+
+      <article class="coast-card">
+        <div class="coast-img">
+          <img src="Ratnagiri.jpg" alt="Ratnagiri">
+        </div>
+        <div class="coast-body">
+          <span class="tag">~100&ndash;120 km &middot; ~2.5h</span>
+          <h3 class="place-name">Ratnagiri</h3>
+          <p>Further north, but worth the longer drive — Ganpatipule's beach temple, the old Ratnagiri lighthouse, and Thibaw Palace.</p>
+          <div class="from">Best for: a full-day coastal drive</div>
+        </div>
+      </article>
+
+    </div>
+    <p class="explore-note">Distances and drive times are approximate road estimates from Talere/Kankavali — worth confirming exact routes before you set out.</p>
+  </div>
+</div>
+
+<!-- ================= CONTACT ================= -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="reveal" style="margin-bottom:3rem;">
+      <div class="label">Plan your stay</div>
+      <h2 class="section-title">Tell us when you're arriving.</h2>
+    </div>
+
+    <div class="contact-wrap">
+      <div class="reveal">
+        <form class="stay-form" id="stayForm">
+          <div class="form-row">
+            <div class="field">
+              <label for="name">Full name</label>
+              <input id="name" type="text" placeholder="Your name" required>
+            </div>
+            <div class="field">
+              <label for="phone">Phone</label>
+              <input id="phone" type="tel" placeholder="+91" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="room">Room type</label>
+              <select id="room">
+                <option>Deluxe AC Room</option>
+                <option>Non-AC Room</option>
+                <option>Family Room</option>
+                <option>Group Stay</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="date">Check-in date</label>
+              <input id="date" type="date">
+            </div>
+          </div>
+          <div class="field">
+            <label for="msg">Message</label>
+            <textarea id="msg" rows="2" placeholder="Number of guests, nights, anything else..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-solid">Send request</button>
+        </form>
+      </div>
+
+      <div class="reveal">
+        <div class="contact-card"> 
+          <h3>Reach us directly</h3>
+          <div class="contact-row"><span class="k">Address</span><span class="v">At post Kasarde, Near Narkar Petrol Pump, Vaibhavwadi Road, Talere, Tal. Kankavali, Dist. Sindhudurg, Maharashtra – 416801</span></div>
+          <div class="contact-row"><span class="k">Phone</span><span class="v"><a href="tel:+918329091319">+91 83290 91319</a></span></div>
+          <div class="contact-row"><span class="k">Email</span><span class="v"><a href="mailto:smitresort11@gmail.com">smitresort11@gmail.com</a></span></div>
+          <div class="contact-row"><span class="k">Hours</span><span class="v">Daily, 09:00 – 19:00</span></div>
+          <div class="contact-row"><span class="k">WhatsApp</span><span class="v"><a href="https://api.whatsapp.com/send?phone=+918329091319&text=Hi..">Start a chat</a></span></div>
+          <div class="contact-row"><span class="k">Instagram</span><span class="v"><a href="https://www.instagram.com/smit_multipurpose_hall_resort" target="_blank" rel="noopener">@smit_multipurpose_hall_resort</a></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">
+    <div class="brand-mark-wrap">
+      <img src="logo.png" alt="Smit Resort logo">
+    </div>
+    <span>&copy; Smit Resort, Talere — Kankavali, Sindhudurg</span>
+  </div>
+  <span>Kasarde, Sindhudurg &middot; Maharashtra</span>
+</footer>
+
+<div class="quick-actions">
+  <a class="quick-btn qb-wa" href="https://api.whatsapp.com/send?phone=+918329091319&text=Hi.." aria-label="WhatsApp" title="WhatsApp">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M20 12a8 8 0 1 1-3.6-6.7L20 4l-1.2 3.6A7.96 7.96 0 0 1 20 12Z" stroke="#faf6f0" stroke-width="1.6"/><path d="M8.5 8.8c.3-.6 1-1.7 1.6-1.5.5.1 1 1.1 1.2 1.5.2.4.1.6-.1.9l-.5.6c-.1.2-.1.3 0 .5.3.6 1.6 2 2.9 2.4.2.1.3 0 .5-.1l.6-.6c.2-.2.4-.2.7-.1l1.6.9c.3.2.4.5.3.8-.3.9-1.3 1.6-2.3 1.5-2.1-.2-4.6-1.9-5.9-4.2-.6-1-1-2.1-.6-2.6Z" fill="#faf6f0"/></svg>
+  </a>
+  <a class="quick-btn qb-ig" href="https://www.instagram.com/smit_multipurpose_hall_resort" aria-label="Instagram" title="Instagram" target="_blank" rel="noopener">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="#222" stroke-width="1.6"/><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z" stroke="#222" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="17.5" cy="6.5" r="0.8" fill="#222"/></svg>
+  </a>
+  <a class="quick-btn qb-call" href="tel:+918329091319" aria-label="Call" title="Call">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 3h3l2 5-2.5 1.5a11 11 0 0 0 5 5L15 12l5 2v3a2 2 0 0 1-2 2C10.5 19 3 11.5 3 5a2 2 0 0 1 2-2Z" stroke="#faf6f0" stroke-width="1.6" stroke-linejoin="round"/></svg>
+  </a>
+</div>
+
+<div class="toast" id="toast">Request noted — this is a demo, connect a backend to send it live.</div>
+
+<script>
+  const header = document.getElementById('siteHeader');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const revealEls = document.querySelectorAll('.reveal');
+  if (reduceMotion) {
+    revealEls.forEach(el => el.classList.add('in'));
+  } else {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(el => io.observe(el));
+  }
+
+  const form = document.getElementById('stayForm');
+  const toast = document.getElementById('toast');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3200);
+    form.reset();
+  });
+
+  const canvas = document.getElementById('fireflies');
+  const ctx = canvas.getContext('2d');
+  let w, h, fireflies = [];
+
+  function resize() {
+    w = canvas.width = canvas.offsetWidth;
+    h = canvas.height = canvas.offsetHeight;
+  }
+  window.addEventListener('resize', resize);
+
+  function initFireflies() {
+    resize();
+    const count = reduceMotion ? 0 : Math.min(45, Math.floor(w / 28));
+    fireflies = Array.from({ length: count }, () => ({
+      x: Math.random() * w,
+      y: h * 0.35 + Math.random() * h * 0.65,
+      r: 1 + Math.random() * 1.8,
+      baseAlpha: 0.25 + Math.random() * 0.55,
+      phase: Math.random() * Math.PI * 2,
+      speedX: (Math.random() - 0.5) * 0.15,
+      speedY: (Math.random() - 0.5) * 0.12,
+    }));
+  }
+
+  function drawFireflies(t) {
+    ctx.clearRect(0, 0, w, h);
+    fireflies.forEach(f => {
+      f.x += f.speedX;
+      f.y += f.speedY;
+      if (f.x < 0) f.x = w; if (f.x > w) f.x = 0;
+      if (f.y < h * 0.3) f.y = h * 0.3; if (f.y > h) f.y = h * 0.3;
+
+      const flicker = (Math.sin(t / 900 + f.phase) + 1) / 2;
+      const alpha = f.baseAlpha * (0.4 + flicker * 0.6);
+
+      const grad = ctx.createRadialGradient(f.x, f.y, 0, f.x, f.y, f.r * 6);
+      grad.addColorStop(0, `rgba(231,176,78,${alpha})`);
+      grad.addColorStop(1, 'rgba(231,176,78,0)');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(f.x, f.y, f.r * 6, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = `rgba(250,246,240,${Math.min(alpha + 0.2, 1)})`;
+      ctx.beginPath();
+      ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    if (!reduceMotion) requestAnimationFrame(drawFireflies);
+  }
+
+  initFireflies();
+  requestAnimationFrame(drawFireflies);
+</script>
+
+</body>
+</html>
