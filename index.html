@@ -1048,7 +1048,7 @@
               <path d="M8 34 H32" stroke="#b5502b" stroke-width="1.6"/>
             </svg>
             <h4>Kankavali Railway Station</h4>
-            <span class="dist">~23 km approx &middot; Konkan Railway</span>
+            <span class="dist">~10 km approx &middot; Konkan Railway</span>
             <p>A major stop on the Konkan Railway line, with regular express and mail trains — the main station for the resort.</p>
           </div>
           <div class="transit-card">
@@ -1061,7 +1061,7 @@
               <path d="M8 34 H32" stroke="#b5502b" stroke-width="1.6"/>
             </svg>
             <h4>Vaibhavwadi Road Station</h4>
-            <span class="dist">~14 km approx &middot; Konkan Railway</span>
+            <span class="dist">~35 km approx &middot; Konkan Railway</span>
             <p>A secondary Konkan Railway stop further along NH-66 — useful for a wider range of train timings.</p>
           </div>
         </div>
@@ -1120,12 +1120,12 @@
           <p>The home ground of the original Alphonso mango, with a working harbour, a lighthouse, and beaches that stay empty even in season.</p>
           <div class="from">Best for: mango orchards, slow beaches</div>
         </div>
-      </article>
+      </article>      
 
       <article class="coast-card trending">
         <div class="coast-img">
           <img src="tsunami island.jpg" alt="Tondavali Tsunami Island">
-        </div>
+        </div> 
         <div class="coast-body">
           <span class="tag">~55 km &middot; ~1h 30m</span>
           <h3 class="place-name">Tondavali "Tsunami Island"</h3>
@@ -1272,6 +1272,34 @@
   const toast = document.getElementById('toast');
   form.addEventListener('submit', (e) => {
     e.preventDefault();
+
+    const name = document.getElementById('name').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const room = document.getElementById('room').value;
+    const date = document.getElementById('date').value;
+    const msg = document.getElementById('msg').value.trim();
+    const demoPhone = '+919529332576';
+
+    const messageLines = [
+      'Hello, I would like to request a stay at Smit Resort.',
+      `Name: ${name || 'Not provided'}`,
+      `Phone: ${phone || 'Not provided'}`,
+      `Room type: ${room}`,
+      `Check-in date: ${date || 'Not specified'}`,
+      `Message: ${msg || 'No additional details'}`
+    ];
+
+    const whatsappUrl = `https://api.whatsapp.com/send?phone=${demoPhone}&text=${encodeURIComponent(messageLines.join('\n'))}`;
+    const smsUrl = `sms:${demoPhone}?body=${encodeURIComponent(messageLines.join('\n'))}`;
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const contactUrl = isMobile ? smsUrl : whatsappUrl;
+
+    if (isMobile) {
+      window.location.href = contactUrl;
+    } else {
+      window.open(contactUrl, '_blank');
+    }
+
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 3200);
     form.reset();
