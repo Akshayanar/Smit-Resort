@@ -13,7 +13,7 @@
     --bg-deep:#f1e6d5;
     --paper:#faf6f0;
     --ink:#2a1c14;
-    --ink-soft:#6f5a45;
+    --ink-soft:#6f5a45;  
     --rust:#b5502b;
     --rust-bright:#d8642f;
     --gold:#c2872e;
@@ -1243,8 +1243,7 @@
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 3h3l2 5-2.5 1.5a11 11 0 0 0 5 5L15 12l5 2v3a2 2 0 0 1-2 2C10.5 19 3 11.5 3 5a2 2 0 0 1 2-2Z" stroke="#faf6f0" stroke-width="1.6" stroke-linejoin="round"/></svg>
   </a>
 </div>
-
-<div class="toast" id="toast">Request noted — this is a demo, connect a backend to send it live.</div>
+<div id="toast" class="toast">✨ Thank you! We will contact you shortly.</div>
 
 <script>
   const header = document.getElementById('siteHeader');
@@ -1278,7 +1277,7 @@
     const room = document.getElementById('room').value;
     const date = document.getElementById('date').value;
     const msg = document.getElementById('msg').value.trim();
-    const demoPhone = '+919665073930';
+    const demoPhone = '+919529332576';
 
     const messageLines = [
       'Hello, I would like to request a stay at Smit Resort.',
@@ -1294,15 +1293,17 @@
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     const contactUrl = isMobile ? smsUrl : whatsappUrl;
 
-    if (isMobile) {
-      window.location.href = contactUrl;
-    } else {
-      window.open(contactUrl, '_blank');
-    }
-
     toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 3200);
     form.reset();
+
+    setTimeout(() => {
+      toast.classList.remove('show');
+      if (isMobile) {
+        window.location.href = contactUrl;
+      } else {
+        window.open(contactUrl, '_blank');
+      }
+    }, 1100);
   });
 
   const canvas = document.getElementById('fireflies');
@@ -1362,3 +1363,58 @@
 
 </body>
 </html>
+<!-- Notification banner -->
+<div id="site-notification" aria-live="polite" role="status" class="notification">
+  <div class="notification__inner">
+    <strong id="notification-title">THANK YOU!</strong>
+    <p id="notification-message">We will contact you shortly.</p>
+    <button id="notification-close" aria-label="Close notification">×</button>
+  </div>
+</div>
+
+<style>
+  .notification{position:fixed;left:50%;transform:translateX(-50%) translateY(-120%);top:0;z-index:9999;transition:transform .36s cubic-bezier(.22,.9,.18,1),opacity .24s;opacity:0;pointer-events:none}
+  .notification__inner{background:#0b1220;color:#fff;padding:14px 20px;border-radius:6px;box-shadow:0 6px 24px rgba(3,10,18,.6);display:flex;align-items:center;gap:12px;max-width:520px;min-width:280px}
+  #notification-title{font-size:15px;letter-spacing:.6px}
+  #notification-message{margin:0;font-size:13px;opacity:.9}
+  #notification-close{background:transparent;border:0;color:#cfd8e3;font-size:18px;cursor:pointer;padding:4px}
+  .notification--visible{transform:translateX(-50%) translateY(18px);opacity:1;pointer-events:auto}
+</style>
+
+<script>
+  (function(){
+    const notif = document.getElementById('site-notification');
+    const closeBtn = document.getElementById('notification-close');
+    function showNotification(title, message, timeout = 4000){
+      document.getElementById('notification-title').textContent = title;
+      document.getElementById('notification-message').textContent = message;
+      notif.classList.add('notification--visible');
+      clearTimeout(window._notifTimeout);
+      window._notifTimeout = setTimeout(()=> notif.classList.remove('notification--visible'), timeout);
+    }
+    closeBtn.addEventListener('click', ()=> notif.classList.remove('notification--visible'));
+
+    // Attach to buttons/inputs labelled "SEND REQUEST" (case-insensitive)
+    function matchesSendRequest(el){
+      if(!el) return false;
+      const txt = (el.textContent || el.value || '').trim().toUpperCase();
+      return txt === 'SEND REQUEST' || txt === 'SEND REQUEST!';
+    }
+    Array.from(document.querySelectorAll('button, input[type="button"], input[type="submit"]')).forEach(btn=>{
+      if(matchesSendRequest(btn)){
+        btn.addEventListener('click', function(e){
+          // allow normal form submit but also show notification
+          showNotification('THANK YOU!', 'We will contact you shortly.');
+        });
+      }
+    });
+
+    // Also catch form submissions that might not use a button text
+    Array.from(document.querySelectorAll('form')).forEach(form=>{
+      form.addEventListener('submit', function(e){
+        // show notification on submit
+        showNotification('THANK YOU!', 'We will contact you shortly.');
+      });
+    });
+  })();
+</script>
