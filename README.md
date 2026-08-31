@@ -1,3 +1,2 @@
 # Smit-Resort 
 
-lkhfxszsasdfghbmjn
